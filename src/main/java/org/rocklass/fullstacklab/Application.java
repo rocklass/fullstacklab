@@ -1,4 +1,4 @@
-package hello;
+package org.rocklass.fullstacklab;
 
 import java.util.Arrays;
 
@@ -10,11 +10,11 @@ import org.springframework.context.ApplicationContext;
 public class Application {
     
     public static void main(String[] args) {
-        ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        ApplicationContext context = SpringApplication.run(Application.class, args);
         
-        System.out.println("Let's inspect the beans provided by Spring Boot:");
+        System.out.println("Spring Boot beans:");
         
-        String[] beanNames = ctx.getBeanDefinitionNames();
+        String[] beanNames = context.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames) {
             System.out.println(beanName);
