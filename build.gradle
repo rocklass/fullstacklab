@@ -3,18 +3,40 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'spring-boot'
+plugins {
+	id "net.researchgate.release" version "2.0.2"
+	id "com.jfrog.bintray" version "1.0"
+}
+
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "maven-publish"
+apply plugin: "spring-boot"
+
+sourceCompatibility = 1.8
+
+group = "org.rocklass"
 
 jar {
-    baseName = 'gs-spring-boot'
-    version =  '0.1.0'
+	doFirst {
+	    manifest {
+	        attributes 	"Implementation-Title": title,
+	        			"Implementation-Version": version
+	    }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
 }
 
 repositories {
@@ -22,15 +44,67 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    // tag::actuator[]
-    compile("org.springframework.boot:spring-boot-starter-actuator")
-    // end::actuator[]
-    // tag::tests[]
-    testCompile("org.springframework.boot:spring-boot-starter-test")
-    // end::tests[]
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '1.11'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            
+            artifact sourcesJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+// update version during release (no snapshot)
+confirmReleaseVersion << {
+    publishing.publications.mavenJava.version = project.version
+    jar.version = project.version
+    sourcesJar.version = project.version
+    publishing.publications.mavenJava.setArtifacts([jar, sourcesJar])
+    bintrayUpload.versionName = project.version
+    bintrayUpload.versionVcsTag = project.version
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs "repository"
+       }
+    }
+}
+
+release {
+	failOnPublishNeeded = false
+	tagPrefix = project.name
+}
+
+createReleaseTag.dependsOn bintrayUpload
+
+bintray {
+    user = bintrayUser // from GRADLE_USER_HOME/gradle.properties
+    key = bintrayKey // from GRADLE_USER_HOME/gradle.properties
+
+    publications = ["mavenJava"]
+    dryRun = false
+    publish = true
+    pkg {
+        repo = "maven"
+        name = project.name
+        desc = "Full Stack Laboratory"
+        websiteUrl = "https://github.com/rocklass/fullstacklab"
+        issueTrackerUrl = "https://github.com/rocklass/fullstacklab/issues"
+        vcsUrl = "https://github.com/rocklass/fullstacklab.git"
+        licenses = ["GPL-3.0"]
+        publicDownloadNumbers = true
+        version {
+                name = project.version
+                vcsTag = project.version
+        }
+    }
 }
