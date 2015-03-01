@@ -22,6 +22,7 @@ sourceCompatibility = 1.8
 group = "org.rocklass"
 
 jar {
+	baseName = "fullstacklab-service"
 	doFirst {
 	    manifest {
 	        attributes 	"Implementation-Title": title,
