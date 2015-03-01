@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab;
+package org.rocklass.fullstacklab.service;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;

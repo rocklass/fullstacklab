@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab;
+package org.rocklass.fullstacklab.service;
 
 import java.util.Arrays;
 

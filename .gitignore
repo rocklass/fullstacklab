@@ -1,6 +1,6 @@
-/.gradle/
-/.settings/
-/bin/
-/build/
-/repository/
-.classpath
+/service/.gradle/
+/service/.settings/
+/service/bin/
+/service/build/
+/service/repository/
+/service/.classpath
