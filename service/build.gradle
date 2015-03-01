@@ -3,7 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "se.transmode.gradle:gradle-docker:$gradleDockerVersion"
     }
 }
 
@@ -16,6 +17,7 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "maven-publish"
 apply plugin: "spring-boot"
+apply plugin: "docker"
 
 sourceCompatibility = 1.8
 
@@ -49,6 +51,17 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+}
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+// filter resources with properties
+processResources {
+	def properties = new Properties()
+    file("gradle.properties").withInputStream {
+        properties.load(it);   
+    }
+    filter(ReplaceTokens, tokens: properties)
 }
 
 publishing {
