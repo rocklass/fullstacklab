@@ -65,8 +65,8 @@ processResources {
 }
 
 docker {
-    url = dockerUrl // from GRADLE_USER_HOME/gradle.properties
-    certPath = new File(dockerCertPath) // from GRADLE_USER_HOME/gradle.properties
+    url = project.hasProperty("dockerUrl") ? project.getProperty("dockerUrl") : "" // from GRADLE_USER_HOME/gradle.properties
+    certPath = new File(project.hasProperty("dockerCertPath") ? project.getProperty("dockerCertPath") : "") // from GRADLE_USER_HOME/gradle.properties
 
     javaApplication {
         baseImage = "dockerfile/java:oracle-java8"
@@ -116,8 +116,8 @@ release {
 createReleaseTag.dependsOn bintrayUpload
 
 bintray {
-    user = bintrayUser // from GRADLE_USER_HOME/gradle.properties
-    key = bintrayKey // from GRADLE_USER_HOME/gradle.properties
+    user = project.hasProperty("bintrayUser") ? project.getProperty("bintrayUser") : "" // from GRADLE_USER_HOME/gradle.properties
+    key = project.hasProperty("bintrayKey") ? project.getProperty("bintrayKey") : "" // from GRADLE_USER_HOME/gradle.properties
 
     publications = ["mavenJava"]
     dryRun = false
