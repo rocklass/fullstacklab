@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
-        classpath "se.transmode.gradle:gradle-docker:$gradleDockerVersion"
+        classpath "com.bmuschko:gradle-docker-plugin:$gradleDockerPluginVersion"
     }
 }
 
@@ -15,9 +15,9 @@ plugins {
 
 apply plugin: "java"
 apply plugin: "eclipse"
-apply plugin: "maven-publish"
 apply plugin: "spring-boot"
-apply plugin: "docker"
+apply plugin: "com.bmuschko.docker-java-application"
+apply plugin: "maven-publish"
 
 sourceCompatibility = 1.8
 
@@ -53,15 +53,28 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
 }
 
+// filter resources with properties
 import org.apache.tools.ant.filters.ReplaceTokens
 
-// filter resources with properties
 processResources {
 	def properties = new Properties()
     file("gradle.properties").withInputStream {
         properties.load(it);   
     }
     filter(ReplaceTokens, tokens: properties)
+}
+
+docker {
+    url = dockerUrl // from GRADLE_USER_HOME/gradle.properties
+    certPath = new File(dockerCertPath) // from GRADLE_USER_HOME/gradle.properties
+
+    javaApplication {
+        baseImage = "dockerfile/java:oracle-java8"
+
+        maintainer = "rocklass"
+        tag = "$maintainer/$jarBaseName:$version"
+        port = serverPort as Integer
+    }
 }
 
 publishing {
@@ -99,6 +112,7 @@ release {
 	tagPrefix = project.name
 }
 
+// upload to bintray during release
 createReleaseTag.dependsOn bintrayUpload
 
 bintray {
