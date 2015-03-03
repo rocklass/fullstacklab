@@ -64,6 +64,7 @@ processResources {
     filter(ReplaceTokens, tokens: properties)
 }
 
+// running container on docker: docker run -p $port:$port $tag
 docker {
     url = project.hasProperty("dockerUrl") ? project.getProperty("dockerUrl") : "" // from GRADLE_USER_HOME/gradle.properties
     certPath = new File(project.hasProperty("dockerCertPath") ? project.getProperty("dockerCertPath") : "") // from GRADLE_USER_HOME/gradle.properties
