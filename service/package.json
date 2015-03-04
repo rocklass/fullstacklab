@@ -1,0 +1,26 @@
+{
+  "name": "fullstacklab",
+  "version": "0.2.0",
+  "description": "Full Stack Laboratory",
+  "main": "node index.js",
+  "dependencies": {
+    "npm": "^2.6.1",
+    "gulp": "^3.8.11"
+  },
+  "devDependencies": {
+  	"vows": "^0.8.1"
+  },
+  "scripts": {
+    "test": "vows --spec --isolate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rocklass/fullstacklab"
+  },
+  "author": "rocklass",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/rocklass/fullstacklab/issues"
+  },
+  "homepage": "https://github.com/rocklass/fullstacklab"
+}
