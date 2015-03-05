@@ -7,10 +7,12 @@ Full Stack Lab is a laboratory where I try some technologies from the back-end t
   * Java
   * Gradle
   * JUnit
+  * JaCoCo
   * Spring Boot
   * Docker
   * JFrog Bintray
   * Travis CI
+  * Coveralls
 
 ## Future technologies
   * AngularJS

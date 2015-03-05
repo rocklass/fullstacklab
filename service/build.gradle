@@ -9,6 +9,7 @@ buildscript {
 }
 
 plugins {
+	id "com.github.kt3k.coveralls" version "2.3.1"
 	id "net.researchgate.release" version "2.0.2"
 	id "com.jfrog.bintray" version "1.0"
 }
@@ -16,6 +17,7 @@ plugins {
 apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "spring-boot"
+apply plugin: "jacoco"
 apply plugin: "com.bmuschko.docker-java-application"
 apply plugin: "maven-publish"
 
@@ -64,6 +66,19 @@ processResources {
     filter(ReplaceTokens, tokens: properties)
 }
 
+test {
+    jacoco {
+    	excludes ["org.rocklass.fullstacklab.service.Application.*"]
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+// running container on docker: docker run -p $port:$port $tag
 docker {
     url = project.hasProperty("dockerUrl") ? project.getProperty("dockerUrl") : "" // from GRADLE_USER_HOME/gradle.properties
     certPath = new File(project.hasProperty("dockerCertPath") ? project.getProperty("dockerCertPath") : "") // from GRADLE_USER_HOME/gradle.properties
