@@ -2,8 +2,8 @@ package org.rocklass.fullstacklab.service;
 
 import java.util.List;
 
-import org.rocklass.fullstacklab.model.Item;
-import org.rocklass.fullstacklab.model.repository.ItemRepository;
+import org.rocklass.fullstacklab.model.entities.Item;
+import org.rocklass.fullstacklab.model.repo.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

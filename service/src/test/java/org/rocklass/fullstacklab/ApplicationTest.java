@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
