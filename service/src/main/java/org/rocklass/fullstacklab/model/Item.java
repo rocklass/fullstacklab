@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.model.entities;
+package org.rocklass.fullstacklab.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,17 +10,17 @@ import javax.persistence.Id;
 public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	@Column
 	private boolean checked;
 	@Column
 	private String description;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

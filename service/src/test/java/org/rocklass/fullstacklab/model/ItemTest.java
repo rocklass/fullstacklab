@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.model.entities;
+package org.rocklass.fullstacklab.model;
 
 import org.junit.Test;
 

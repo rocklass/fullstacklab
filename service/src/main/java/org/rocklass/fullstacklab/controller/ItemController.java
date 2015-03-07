@@ -1,9 +1,10 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab.controller;
 
 import java.util.List;
 
-import org.rocklass.fullstacklab.model.entities.Item;
-import org.rocklass.fullstacklab.model.repo.ItemRepository;
+import org.rocklass.fullstacklab.exception.EntityNotFoundException;
+import org.rocklass.fullstacklab.model.Item;
+import org.rocklass.fullstacklab.service.ItemRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,28 +16,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/items")
 public class ItemController {
 	@Autowired
-	private ItemRepository repo;
+	private ItemRepositoryService service;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Item> findItems() {
-		return repo.findAll();
+		return service.findAll();
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public Item addItem(@RequestBody Item item) {
 		item.setId(null);
-		return repo.saveAndFlush(item);
+		return service.add(item);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
 	public Item updateItem(@RequestBody Item updatedItem,
-			@PathVariable Integer id) {
+			@PathVariable Long id) throws EntityNotFoundException {
 		updatedItem.setId(id);
-		return repo.saveAndFlush(updatedItem);
+		return service.update(updatedItem);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteItem(@PathVariable Integer id) {
-		repo.delete(id);
+	public void deleteItem(@PathVariable Long id) throws EntityNotFoundException {
+		service.delete(id);
 	}
 }

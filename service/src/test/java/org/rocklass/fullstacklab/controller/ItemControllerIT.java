@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab.controller;
 
 import org.junit.Test;
 import org.rocklass.fullstacklab.test.ServiceIntegrationTest;

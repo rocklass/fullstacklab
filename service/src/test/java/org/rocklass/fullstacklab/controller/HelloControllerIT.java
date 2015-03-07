@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab.controller;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
