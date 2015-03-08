@@ -25,7 +25,6 @@
 		};
 	};
 
-	AppController.$inject = [ '$scope', 'Item' ];
-	angular.module("app.controllers").controller("AppController",
-			AppController);
+	AppController.$inject = [ "$scope", "Item" ];
+	angular.module("app.controllers").controller("AppController", AppController);
 }(angular));
