@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.rocklass.fullstacklab.exception.EntityNotFoundException;
 import org.rocklass.fullstacklab.model.Item;
-import org.rocklass.fullstacklab.service.ItemRepositoryService;
+import org.rocklass.fullstacklab.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+	
+	private ItemService service;
+
+	public ItemService getService() {
+		return service;
+	}
+	
 	@Autowired
-	private ItemRepositoryService service;
+	public void setService(ItemService service) {
+		this.service = service;
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Item> findItems() {

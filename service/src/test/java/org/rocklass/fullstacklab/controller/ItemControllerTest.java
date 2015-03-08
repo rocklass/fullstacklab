@@ -2,54 +2,57 @@ package org.rocklass.fullstacklab.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.Mockito.*;
 
 import java.io.StringWriter;
+import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.rocklass.fullstacklab.model.Item;
+import org.rocklass.fullstacklab.service.ItemService;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockServletContext;
-import org.springframework.test.context.TestContext;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = {MockServletContext.class, TestContext.class})
-@WebAppConfiguration
+@RunWith(MockitoJUnitRunner.class)
 public class ItemControllerTest {
-	
 	private MockMvc mvc;
-	
-	@Before
-	public void setUp() throws Exception {
-		mvc = MockMvcBuilders.standaloneSetup(new ItemController()).build();
-	}
 
-	@Test
+    @Mock
+    private ItemService itemServiceMock;
+
+    @Before
+    public void setUp() {
+    	Mockito.reset(itemServiceMock);
+    	ItemController itemController = new ItemController();
+    	itemController.setService(itemServiceMock);
+        mvc = MockMvcBuilders.standaloneSetup(itemController).build();
+    }
+    
+    @Test
 	public void findItems() throws Exception {
+		when(itemServiceMock.findAll()).thenReturn(new ArrayList<Item>());
+		
 		MockHttpServletRequestBuilder getRequest = get("/items");
 		getRequest.accept(MediaType.APPLICATION_JSON);
-//		ResultActions resultAction = mvc.perform(getRequest);
-//		resultAction.andExpect(status().isOk());
+		ResultActions resultAction = mvc.perform(getRequest);
+		resultAction.andExpect(status().isOk());		
 		
-		
-//		assertThat(mvc.perform(get("/items").accept(MediaType.APPLICATION_JSON)), nullValue());
-//		mvc.perform(get("/items")
-//		.accept(MediaType.APPLICATION_JSON))
-//		.andExpect(status().isOk());
 		// TODO complete
 	}
-	
-	@Test
+    
+    @Test
 	public void addItem() throws Exception {
 		StringWriter jsonWriter = new StringWriter();
 		JsonGenerator generator = new JsonFactory().createGenerator(jsonWriter);
@@ -63,6 +66,4 @@ public class ItemControllerTest {
 		
 		// TODO complete
 	}
-	
-	// TODO test other methods
 }

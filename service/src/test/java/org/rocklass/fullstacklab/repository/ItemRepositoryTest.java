@@ -14,9 +14,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 // TODO write repository test
 public class ItemRepositoryTest {
 	
-//	@Autowired
-    private ItemRepository itemRepositoryMock;
-
 	@Test
 	public void findAll() throws Exception {
 	}
