@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 @Service
 public abstract class GenericRepositoryService<Entity> implements GenericService<Entity> {
 	
-	protected abstract JpaRepository<Entity, Long> getRepository();
+	public abstract JpaRepository<Entity, Long> getRepository();
+	
+	public abstract void setRepository(JpaRepository<Entity, Long> repository);
 	
 	protected abstract String getEntityName();
 

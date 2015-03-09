@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemRepositoryService extends GenericRepositoryService<Item> implements ItemService {
 	
-	@Autowired
 	private ItemRepository repository;
 	
 	@Override
-	protected JpaRepository<Item, Long> getRepository() {
+	public JpaRepository<Item, Long> getRepository() {
 		return repository;
+	}
+
+	@Autowired
+	public void setRepository(JpaRepository<Item, Long> repository) {
+		this.repository = (ItemRepository) repository;
 	}
 
 	@Override
