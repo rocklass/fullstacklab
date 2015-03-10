@@ -1,19 +1,14 @@
-package org.rocklass.fullstacklab.service;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+package org.rocklass.fullstacklab.test;
 
 import java.net.URL;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.rocklass.fullstacklab.service.Application;
+import org.rocklass.fullstacklab.Application;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.client.RestTemplate;
@@ -22,23 +17,31 @@ import org.springframework.web.client.RestTemplate;
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
 @IntegrationTest({"server.port=0"})
-public class HelloControllerIT {
-
-    @Value("${local.server.port}")
+public abstract class ServiceIntegrationTest {
+	@Value("${local.server.port}")
     private int port;
 
 	private URL base;
+	
 	private RestTemplate template;
-
+	
 	@Before
 	public void setUp() throws Exception {
-		this.base = new URL("http://localhost:" + port + "/");
+		base = new URL("http://localhost:" + port + getRequestMapping());
 		template = new TestRestTemplate();
 	}
 
-	@Test
-	public void getHello() throws Exception {
-		ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
-		assertThat(response.getBody(), equalTo("Hello World"));
+	public int getPort() {
+		return port;
 	}
+
+	public URL getBase() {
+		return base;
+	}
+
+	public RestTemplate getTemplate() {
+		return template;
+	}
+	
+	public abstract String getRequestMapping();
 }

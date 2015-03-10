@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -51,8 +51,10 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    testCompile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+    runtime("org.hsqldb:hsqldb:$hsqldbVersion")
 }
 
 // filter resources with properties
@@ -66,13 +68,10 @@ processResources {
     filter(ReplaceTokens, tokens: properties)
 }
 
-test {
-    jacoco {
-    	excludes ["org.rocklass.fullstacklab.service.Application.*"]
-    }
-}
-
 jacocoTestReport {
+	doFirst {
+		classDirectories = files("build/classes/main/org/rocklass")
+	}
     reports {
         xml.enabled true
     }

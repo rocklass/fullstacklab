@@ -1,9 +1,10 @@
-package org.rocklass.fullstacklab.service;
+package org.rocklass.fullstacklab;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.Test;
+import org.rocklass.fullstacklab.Application;
 import org.springframework.context.ApplicationContext;
 
 public class ApplicationTest {
