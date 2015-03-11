@@ -6,19 +6,21 @@ Full Stack Lab is a laboratory where I try some technologies from the back-end t
 ## Current technologies
   * Java
   * Gradle
-  * JUnit
-  * JaCoCo
   * Spring Boot
+  * JUnit
+  * Mockito
+  * JaCoCo
+  * Bower
+  * AngularJS
+  * Twitter Bootstrap
   * Docker
   * JFrog Bintray
   * Travis CI
   * Coveralls
 
 ## Future technologies
-  * AngularJS
   * Gulp
-  * Bower
-  * Twitter Bootstrap
   * MongoDB
   * Logback
+  * Mocha
   * Apache Corbova
