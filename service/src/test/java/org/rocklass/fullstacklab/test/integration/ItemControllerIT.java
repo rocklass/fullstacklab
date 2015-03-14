@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.controller;
+package org.rocklass.fullstacklab.test.integration;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.rocklass.fullstacklab.model.Item;
-import org.rocklass.fullstacklab.test.ServiceIntegrationTest;
 import org.springframework.http.ResponseEntity;
 
 public class ItemControllerIT extends ServiceIntegrationTest {
@@ -18,7 +17,7 @@ public class ItemControllerIT extends ServiceIntegrationTest {
 	@Test
 	public void findItems() throws Exception {
 		ResponseEntity<List> response = getTemplate().getForEntity(getBase().toString(), List.class);
-		// TODO write IT
+		System.out.println(response.getBody());// TODO write IT
 	}
 	
 	@Test

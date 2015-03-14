@@ -54,6 +54,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testCompile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+    testCompile("org.apache.commons:commons-lang3:$commonsLang3Version")
+    testCompile("org.skyscreamer:jsonassert:$jsonAssertVersion")
     runtime("org.hsqldb:hsqldb:$hsqldbVersion")
 }
 

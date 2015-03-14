@@ -1,10 +1,9 @@
-package org.rocklass.fullstacklab.controller;
+package org.rocklass.fullstacklab.test.integration;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.rocklass.fullstacklab.test.ServiceIntegrationTest;
 import org.springframework.http.ResponseEntity;
 
 public class HelloControllerIT extends ServiceIntegrationTest {

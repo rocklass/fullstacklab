@@ -1,4 +1,4 @@
-package org.rocklass.fullstacklab.test;
+package org.rocklass.fullstacklab.test.integration;
 
 import java.net.URL;
 

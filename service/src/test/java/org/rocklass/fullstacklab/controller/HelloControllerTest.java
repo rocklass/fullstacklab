@@ -6,27 +6,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HelloControllerTest {
+public class HelloControllerTest extends ControllerTest {
 
-	private MockMvc mvc;
+	@Override
+	public String getUrl() {
+		return "/hello";
+	}
 
 	@Before
 	public void setUp() throws Exception {
-		mvc = MockMvcBuilders.standaloneSetup(new HelloController()).build();
+		setMvc(MockMvcBuilders.standaloneSetup(new HelloController()).build());
 	}
 
 	@Test
 	public void getHello() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(content().string(equalTo("Hello World")));
+		// when
+		ResultActions resultAction = getMvc().perform(
+				MockMvcRequestBuilders.get(getUrl()).accept(
+						MediaType.APPLICATION_JSON));
+		
+		// then
+		resultAction.andExpect(status().isOk());
+		resultAction.andExpect(content().string(equalTo("Hello World")));
 	}
 }
