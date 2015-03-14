@@ -1,25 +1,34 @@
 package org.rocklass.fullstacklab.service;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.sameInstance;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.rocklass.fullstacklab.exception.EntityNotFoundException;
 import org.rocklass.fullstacklab.model.Item;
 import org.rocklass.fullstacklab.repository.ItemRepository;
+import org.rocklass.fullstacklab.test.tools.RandomFactory;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ItemRepositoryServiceTest {
-	// TODO more tests
+
 	@Mock
 	private ItemRepository itemRepository;
 
@@ -46,60 +55,101 @@ public class ItemRepositoryServiceTest {
 
 	@Test
 	public void add() {
-		Item item = new Item();
-
+		// given
+		Item item = RandomFactory.createItem();
 		when(itemRepository.saveAndFlush(any(Item.class))).thenReturn(item);
 
-		assertThat(itemRepositoryService.add(item), sameInstance(item));
+		// when
+		Item addedItem = itemRepositoryService.add(item);
+
+		// then
+		assertThat(addedItem, sameInstance(item));
+		verify(itemRepository, times(1)).saveAndFlush(Matchers.refEq(item));
 	}
 
 	@Test
 	public void delete() throws EntityNotFoundException {
-		Item item = new Item();
+		// given
+		Item item = RandomFactory.createItem();
 		when(itemRepository.findOne(anyLong())).thenReturn(item);
 
-		itemRepositoryService.delete(1L);
+		// when
+		itemRepositoryService.delete(item.getId());
 
-		verify(itemRepository, times(1)).delete(item);
+		// then
+		verify(itemRepository, times(1)).delete(Matchers.refEq(item));
 	}
 
 	@Test
 	public void deleteEntityNotFoundException() throws EntityNotFoundException {
 		thrown.expect(EntityNotFoundException.class);
-		itemRepositoryService.delete(1L);
+		
+		itemRepositoryService.delete(RandomUtils.nextLong(0, Long.MAX_VALUE));
 	}
 
 	@Test
 	public void findAll() {
-		Item item = new Item();
-		when(itemRepository.findOne(anyLong())).thenReturn(item);
+		// given
+		Item item = RandomFactory.createItem();
+		List<Item> items = new ArrayList<Item>();
+		items.add(item);
+		when(itemRepository.findAll()).thenReturn(items);
 
-		itemRepositoryService.findAll();
+		// when
+		List<Item> itemsFound = itemRepositoryService.findAll();
 
+		// then
 		verify(itemRepository, times(1)).findAll();
+		assertThat(itemsFound, sameInstance(items));
+	}
+	
+	@Test
+	public void findAllEmpty() {
+		// given
+		List<Item> items = new ArrayList<Item>();
+		when(itemRepository.findAll()).thenReturn(items);
+
+		// when
+		List<Item> itemsFound = itemRepositoryService.findAll();
+
+		// then
+		verify(itemRepository, times(1)).findAll();
+		assertThat(itemsFound, sameInstance(items));
 	}
 
 	@Test
 	public void findById() throws EntityNotFoundException {
-		Item item = new Item();
+		// given
+		Item item = RandomFactory.createItem();
 		when(itemRepository.findOne(anyLong())).thenReturn(item);
 
-		assertThat(itemRepositoryService.findById(1L), sameInstance(item));
+		// when
+		Item itemFound = itemRepositoryService.findById(item.getId());
+		
+		// then
+		assertThat(itemFound, sameInstance(item));
+		verify(itemRepository, times(1)).findOne(Matchers.refEq(item.getId()));
 	}
 
 	@Test
 	public void findByIdEntityNotFoundException()
 			throws EntityNotFoundException {
 		thrown.expect(EntityNotFoundException.class);
-		itemRepositoryService.findById(1L);
+		
+		itemRepositoryService.findById(RandomUtils.nextLong(0, Long.MAX_VALUE));
 	}
 
 	@Test
 	public void update() {
-		Item item = new Item();
-
+		// given
+		Item item = RandomFactory.createItem();
 		when(itemRepository.saveAndFlush(any(Item.class))).thenReturn(item);
 
-		assertThat(itemRepositoryService.update(item), sameInstance(item));
+		// when
+		Item updatedItem = itemRepositoryService.update(item);
+		
+		// then
+		assertThat(updatedItem, sameInstance(item));
+		verify(itemRepository, times(1)).saveAndFlush(Matchers.refEq(item));
 	}
 }
