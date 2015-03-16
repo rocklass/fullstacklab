@@ -140,9 +140,10 @@ public class ItemRepositoryServiceTest {
 	}
 
 	@Test
-	public void update() {
+	public void update() throws EntityNotFoundException {
 		// given
 		Item item = RandomFactory.createItem();
+		when(itemRepository.findOne(anyLong())).thenReturn(item);
 		when(itemRepository.saveAndFlush(any(Item.class))).thenReturn(item);
 
 		// when
@@ -151,5 +152,14 @@ public class ItemRepositoryServiceTest {
 		// then
 		assertThat(updatedItem, sameInstance(item));
 		verify(itemRepository, times(1)).saveAndFlush(Matchers.refEq(item));
+	}
+	
+	@Test
+	public void updateEntityNotFoundException()
+			throws EntityNotFoundException {
+		thrown.expect(EntityNotFoundException.class);
+		
+		Item item = RandomFactory.createItem();
+		itemRepositoryService.update(item);
 	}
 }

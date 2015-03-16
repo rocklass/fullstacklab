@@ -7,9 +7,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class EntityNotFoundException extends Exception {
 
 	private static final long serialVersionUID = -5116916897789230712L;
+	
+	private String entityName;
+	
+	private Long id;
 
 	public EntityNotFoundException(String entityName, Long id) {
         super("No " + entityName + " with id " + id);
+        this.entityName = entityName;
+        this.id = id;
     }
 
+	public String getEntityName() {
+		return entityName;
+	}
+
+	public Long getId() {
+		return id;
+	}
 }
