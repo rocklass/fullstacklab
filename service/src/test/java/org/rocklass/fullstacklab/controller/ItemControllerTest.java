@@ -39,151 +39,146 @@ public class ItemControllerTest extends ControllerTest {
 
     @Mock
     private ItemService itemServiceMock;
-    
+
     @InjectMocks
     private ItemController itemController;
-    
+
     @Override
-	public String getUrl() {
-		return "/items";
-	}
+    public String getUrl() {
+        return "/items";
+    }
 
     @Before
     public void setUp() {
-    	Mockito.reset(itemServiceMock);
-    	itemController.setService(itemServiceMock);
+        Mockito.reset(itemServiceMock);
+        itemController.setService(itemServiceMock);
         setMvc(MockMvcBuilders.standaloneSetup(itemController).build());
     }
-    
+
     @Test
     public void getService() {
-    	assertThat(itemController.getService(), sameInstance(itemServiceMock));
+        assertThat(itemController.getService(), sameInstance(itemServiceMock));
     }
-    
-    @Test
-	public void findItems() throws Exception {
-    	// given
-    	Item item = RandomFactory.createItem();
-    	List<Item> itemsList = new ArrayList<Item>();
-    	itemsList.add(item);
-		when(itemServiceMock.findAll()).thenReturn(itemsList);
-		
-		// when
-		MockHttpServletRequestBuilder getRequest = get(getUrl());
-		getRequest.accept(MediaType.APPLICATION_JSON);
-		ResultActions resultAction = getMvc().perform(getRequest);
-		
-		// then
-		resultAction.andExpect(status().isOk());	
-		resultAction.andExpect(content().contentType(getContentType()));
-		resultAction.andExpect(content().json(JsonCreator.marshall(itemsList)));
-	}
-    
-    @Test
-	public void findItemsEmpty() throws Exception {
-    	// given
-    	List<Item> emptyItemsList = new ArrayList<Item>();
-		when(itemServiceMock.findAll()).thenReturn(emptyItemsList);
-		
-		// when
-		MockHttpServletRequestBuilder getRequest = get(getUrl());
-		getRequest.accept(MediaType.APPLICATION_JSON);
-		ResultActions resultAction = getMvc().perform(getRequest);
-		
-		// then
-		resultAction.andExpect(status().isOk());	
-		resultAction.andExpect(content().contentType(getContentType()));
-		resultAction.andExpect(content().json(JsonCreator.marshall(emptyItemsList)));
-	}
-    
-    @Test
-	public void addItem() throws Exception {
-    	// given
-    	Item item1 = RandomFactory.createItem();
-    	Item item2 = new Item();
-    	item2.setId(null);
-    	item2.setChecked(item1.isChecked());
-    	item2.setDescription(item1.getDescription());
-    	when(itemServiceMock.add(any(Item.class))).thenReturn(item1);
-    	
-    	// when
-		ResultActions resultAction = getMvc().perform(post(getUrl())
-                .contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item1)));
-		
-		// then
-		resultAction.andExpect(status().isOk());
-		resultAction.andExpect(content().contentType(getContentType()));
-		resultAction.andExpect(content().json(JsonCreator.marshall(item1)));
-		
-		// assert id = null when calling service.add
-		verify(itemServiceMock, times(1)).add(Matchers.refEq(item2));
-	}
-    
-    @Test
-	public void updateItem() throws Exception {
-    	// given
-    	Item item1 = RandomFactory.createItem();
-    	Item item2 = new Item();
-    	item2.setId(null);
-    	item2.setChecked(item1.isChecked());
-    	item2.setDescription(item1.getDescription());
-    	when(itemServiceMock.update(any(Item.class))).thenReturn(item1);
-    	
-    	// when
-		ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item1.getId())
-                .contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item2)));
-		
-		// then
-		resultAction.andExpect(status().isOk());
-		resultAction.andExpect(content().contentType(getContentType()));
-		resultAction.andExpect(content().json(JsonCreator.marshall(item1)));
 
-		// assert id = item1.id when calling service.update
-		verify(itemServiceMock, times(1)).update(Matchers.refEq(item1));
-    }
-    
     @Test
-	public void updateItemUnprocessableEntity() throws Exception {
-    	// given
-    	Item item = RandomFactory.createItem();
-    	when(itemServiceMock.update(any(Item.class))).thenThrow(new EntityNotFoundException("item", item.getId()));
-    	
-    	// when
-		ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item.getId())
-                .contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
-		
-		// then
-		resultAction.andExpect(status().isUnprocessableEntity());
+    public void findItems() throws Exception {
+        // given
+        Item item = RandomFactory.createItem();
+        List<Item> itemsList = new ArrayList<Item>();
+        itemsList.add(item);
+        when(itemServiceMock.findAll()).thenReturn(itemsList);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get(getUrl());
+        getRequest.accept(MediaType.APPLICATION_JSON);
+        ResultActions resultAction = getMvc().perform(getRequest);
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andExpect(content().contentType(getContentType()));
+        resultAction.andExpect(content().json(JsonCreator.marshall(itemsList)));
     }
-    
+
     @Test
-	public void deleteItem() throws Exception {
-    	// given
-    	Item item = RandomFactory.createItem();
-    	
-    	// when
-    	ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId())
-                .contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
-    	
-    	// then
-		resultAction.andExpect(status().isOk());
-		resultAction.andDo(MockMvcResultHandlers.print());
-		
-		// assert id = item.id when calling service.delete
-		verify(itemServiceMock, times(1)).delete(Matchers.refEq(item.getId()));
+    public void findItemsEmpty() throws Exception {
+        // given
+        List<Item> emptyItemsList = new ArrayList<Item>();
+        when(itemServiceMock.findAll()).thenReturn(emptyItemsList);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get(getUrl());
+        getRequest.accept(MediaType.APPLICATION_JSON);
+        ResultActions resultAction = getMvc().perform(getRequest);
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andExpect(content().contentType(getContentType()));
+        resultAction.andExpect(content().json(JsonCreator.marshall(emptyItemsList)));
     }
-    
+
     @Test
-	public void deleteItemUnprocessableEntity() throws Exception {
-    	// given
-    	Item item = RandomFactory.createItem();
-    	doThrow(new EntityNotFoundException("item", item.getId())).when(itemServiceMock).delete(anyLong());
-    	
-    	// when
-    	ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId())
-                .contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
-    	
-    	// then
-    	resultAction.andExpect(status().isUnprocessableEntity());
+    public void addItem() throws Exception {
+        // given
+        Item item1 = RandomFactory.createItem();
+        Item item2 = new Item();
+        item2.setId(null);
+        item2.setChecked(item1.isChecked());
+        item2.setDescription(item1.getDescription());
+        when(itemServiceMock.add(any(Item.class))).thenReturn(item1);
+
+        // when
+        ResultActions resultAction = getMvc().perform(post(getUrl()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item1)));
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andExpect(content().contentType(getContentType()));
+        resultAction.andExpect(content().json(JsonCreator.marshall(item1)));
+
+        // assert id = null when calling service.add
+        verify(itemServiceMock, times(1)).add(Matchers.refEq(item2));
+    }
+
+    @Test
+    public void updateItem() throws Exception {
+        // given
+        Item item1 = RandomFactory.createItem();
+        Item item2 = new Item();
+        item2.setId(null);
+        item2.setChecked(item1.isChecked());
+        item2.setDescription(item1.getDescription());
+        when(itemServiceMock.update(any(Item.class))).thenReturn(item1);
+
+        // when
+        ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item1.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item2)));
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andExpect(content().contentType(getContentType()));
+        resultAction.andExpect(content().json(JsonCreator.marshall(item1)));
+
+        // assert id = item1.id when calling service.update
+        verify(itemServiceMock, times(1)).update(Matchers.refEq(item1));
+    }
+
+    @Test
+    public void updateItemUnprocessableEntity() throws Exception {
+        // given
+        Item item = RandomFactory.createItem();
+        when(itemServiceMock.update(any(Item.class))).thenThrow(new EntityNotFoundException("item", item.getId()));
+
+        // when
+        ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+
+        // then
+        resultAction.andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void deleteItem() throws Exception {
+        // given
+        Item item = RandomFactory.createItem();
+
+        // when
+        ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andDo(MockMvcResultHandlers.print());
+
+        // assert id = item.id when calling service.delete
+        verify(itemServiceMock, times(1)).delete(Matchers.refEq(item.getId()));
+    }
+
+    @Test
+    public void deleteItemUnprocessableEntity() throws Exception {
+        // given
+        Item item = RandomFactory.createItem();
+        doThrow(new EntityNotFoundException("item", item.getId())).when(itemServiceMock).delete(anyLong());
+
+        // when
+        ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+
+        // then
+        resultAction.andExpect(status().isUnprocessableEntity());
     }
 }

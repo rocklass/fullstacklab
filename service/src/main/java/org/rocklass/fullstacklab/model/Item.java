@@ -7,36 +7,39 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Item implements org.rocklass.fullstacklab.model.Entity{
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@Column
-	private boolean checked;
-	@Column
-	private String description;
+public class Item implements org.rocklass.fullstacklab.model.Entity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @Column
+    private boolean checked;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column
+    private String description;
 
-	public boolean isChecked() {
-		return checked;
-	}
+    @Override
+    public Long getId() {
+        return id;
+    }
 
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public boolean isChecked() {
+        return checked;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

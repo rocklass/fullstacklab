@@ -6,21 +6,21 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class ControllerTest {
-	private MockMvc mvc;
-	
-	private String contentType = "application/json;charset=UTF-8";
-	
-	public MockMvc getMvc() {
-		return mvc;
-	}
+    private MockMvc mvc;
 
-	public void setMvc(MockMvc mvc) {
-		this.mvc = mvc;
-	}
-	
-	public String getContentType() {
-		return contentType;
-	}
+    private String contentType = "application/json;charset=UTF-8";
 
-	public abstract String getUrl();
+    public MockMvc getMvc() {
+        return mvc;
+    }
+
+    public void setMvc(MockMvc mvc) {
+        this.mvc = mvc;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public abstract String getUrl();
 }

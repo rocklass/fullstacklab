@@ -16,32 +16,32 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
 @WebAppConfiguration
-@IntegrationTest({"server.port=0"})
+@IntegrationTest({ "server.port=0" })
 public abstract class ServiceIntegrationTest {
-	@Value("${local.server.port}")
+    @Value("${local.server.port}")
     private int port;
 
-	private URL base;
-	
-	private RestTemplate template;
-	
-	@Before
-	public void setUp() throws Exception {
-		base = new URL("http://localhost:" + port + getRequestMapping());
-		template = new TestRestTemplate();
-	}
+    private URL base;
 
-	public int getPort() {
-		return port;
-	}
+    private RestTemplate template;
 
-	public URL getBase() {
-		return base;
-	}
+    @Before
+    public void setUp() throws Exception {
+        base = new URL("http://localhost:" + port + getRequestMapping());
+        template = new TestRestTemplate();
+    }
 
-	public RestTemplate getTemplate() {
-		return template;
-	}
-	
-	public abstract String getRequestMapping();
+    public int getPort() {
+        return port;
+    }
+
+    public URL getBase() {
+        return base;
+    }
+
+    public RestTemplate getTemplate() {
+        return template;
+    }
+
+    public abstract String getRequestMapping();
 }

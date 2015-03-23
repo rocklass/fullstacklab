@@ -3,16 +3,15 @@ package org.rocklass.fullstacklab.service;
 import java.util.List;
 
 import org.rocklass.fullstacklab.exception.EntityNotFoundException;
-import org.rocklass.fullstacklab.model.Item;
 
-public interface GenericService<Entity> {
-	Entity add(Entity added);
+public interface GenericService<E> {
+    E add(E added);
 
     void delete(Long id) throws EntityNotFoundException;
 
-    List<Entity> findAll();
+    List<E> findAll();
 
-    Entity findById(Long id) throws EntityNotFoundException;
+    E findById(Long id) throws EntityNotFoundException;
 
-    Entity update(Item updated) throws EntityNotFoundException;
+    E update(E updated) throws EntityNotFoundException;
 }

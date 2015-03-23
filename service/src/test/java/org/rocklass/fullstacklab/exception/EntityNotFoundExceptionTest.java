@@ -9,17 +9,16 @@ import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
 public class EntityNotFoundExceptionTest {
-	@Test
-	public void canThrowEntityNotFoundException() {
-		String entityName = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
-		Long id = RandomUtils.nextLong(0, Long.MAX_VALUE);
-		try {
-			throw new EntityNotFoundException(entityName, id);
-		}
-		catch (EntityNotFoundException e) {
-			assertThat(e.getMessage(), equalTo("No " + entityName + " with id " + id));
-			assertThat(e.getEntityName(), sameInstance(entityName));
-			assertThat(e.getId(), sameInstance(id));
-		}
-	}
+    @Test
+    public void canThrowEntityNotFoundException() {
+        String entityName = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
+        Long id = RandomUtils.nextLong(0, Long.MAX_VALUE);
+        try {
+            throw new EntityNotFoundException(entityName, id);
+        } catch (EntityNotFoundException e) {
+            assertThat(e.getMessage(), equalTo("No " + entityName + " with id " + id));
+            assertThat(e.getEntityName(), sameInstance(entityName));
+            assertThat(e.getId(), sameInstance(id));
+        }
+    }
 }

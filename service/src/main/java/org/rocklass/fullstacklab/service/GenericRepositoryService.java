@@ -9,44 +9,49 @@ import org.springframework.stereotype.Service;
 
 @Service
 public abstract class GenericRepositoryService<E extends Entity> implements GenericService<E> {
-	
-	public abstract JpaRepository<E, Long> getRepository();
-	
-	public abstract void setRepository(JpaRepository<E, Long> repository);
-	
-	protected abstract String getEntityName();
 
-	public E add(E added) {
-		return getRepository().saveAndFlush(added);
-	}
+    public abstract JpaRepository<E, Long> getRepository();
 
-	public void delete(Long id) throws EntityNotFoundException {
-		E deleted = findById(id);
-		getRepository().delete(deleted);
-	}
+    public abstract void setRepository(JpaRepository<E, Long> repository);
 
-	public List<E> findAll() {
-		return getRepository().findAll();
-	}
+    protected abstract String getEntityName();
 
-	public E findById(Long id) throws EntityNotFoundException {
-		E found = getRepository().findOne(id);
+    @Override
+    public E add(E added) {
+        return getRepository().saveAndFlush(added);
+    }
+
+    @Override
+    public void delete(Long id) throws EntityNotFoundException {
+        E deleted = findById(id);
+        getRepository().delete(deleted);
+    }
+
+    @Override
+    public List<E> findAll() {
+        return getRepository().findAll();
+    }
+
+    @Override
+    public E findById(Long id) throws EntityNotFoundException {
+        E found = getRepository().findOne(id);
 
         if (found == null) {
             throw new EntityNotFoundException(getEntityName(), id);
         }
 
         return found;
-	}
+    }
 
-	public E update(E updated) throws EntityNotFoundException {
-		Entity found = getRepository().findOne(updated.getId());
+    @Override
+    public E update(E updated) throws EntityNotFoundException {
+        E found = getRepository().findOne(updated.getId());
 
         if (found == null) {
             throw new EntityNotFoundException(getEntityName(), updated.getId());
         }
-        
-		return getRepository().saveAndFlush(updated);
-	}
+
+        return getRepository().saveAndFlush(updated);
+    }
 
 }

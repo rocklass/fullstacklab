@@ -5,29 +5,32 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class FileUtility {
-	public static String getResourceFileAsString(String fileName) {
+    private FileUtility() {
 
-		StringBuilder result = new StringBuilder("");
+    }
 
-		// get file from resources folder
-		ClassLoader classLoader = FileUtility.class.getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile());
+    public static String getResourceFileAsString(String fileName) {
+        StringBuilder result = new StringBuilder("");
 
-		try {
-			Scanner scanner = new Scanner(file);
+        // get file from resources folder
+        ClassLoader classLoader = FileUtility.class.getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
 
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line);
-				if (scanner.hasNextLine()) {
-					result.append(System.lineSeparator());
-				}
-			}
-			scanner.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        try {
+            Scanner scanner = new Scanner(file);
 
-		return result.toString();
-	}
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                result.append(line);
+                if (scanner.hasNextLine()) {
+                    result.append(System.lineSeparator());
+                }
+            }
+            scanner.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result.toString();
+    }
 }

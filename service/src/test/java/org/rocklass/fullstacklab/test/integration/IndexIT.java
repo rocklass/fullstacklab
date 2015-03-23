@@ -8,14 +8,14 @@ import org.rocklass.fullstacklab.test.tools.FileUtility;
 import org.springframework.http.ResponseEntity;
 
 public class IndexIT extends ServiceIntegrationTest {
-	@Override
-	public String getRequestMapping() {
-		return "/";
-	}
+    @Override
+    public String getRequestMapping() {
+        return "/";
+    }
 
-	@Test
-	public void getIndex() throws Exception {
-		ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
-		assertThat(response.getBody(), equalTo(FileUtility.getResourceFileAsString("static/index.html")));
-	}
+    @Test
+    public void getIndex() throws Exception {
+        ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
+        assertThat(response.getBody(), equalTo(FileUtility.getResourceFileAsString("static/index.html")));
+    }
 }

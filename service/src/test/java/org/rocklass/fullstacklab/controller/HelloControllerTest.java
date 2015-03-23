@@ -13,25 +13,23 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 public class HelloControllerTest extends ControllerTest {
 
-	@Override
-	public String getUrl() {
-		return "/hello";
-	}
+    @Override
+    public String getUrl() {
+        return "/hello";
+    }
 
-	@Before
-	public void setUp() throws Exception {
-		setMvc(MockMvcBuilders.standaloneSetup(new HelloController()).build());
-	}
+    @Before
+    public void setUp() throws Exception {
+        setMvc(MockMvcBuilders.standaloneSetup(new HelloController()).build());
+    }
 
-	@Test
-	public void getHello() throws Exception {
-		// when
-		ResultActions resultAction = getMvc().perform(
-				MockMvcRequestBuilders.get(getUrl()).accept(
-						MediaType.APPLICATION_JSON));
-		
-		// then
-		resultAction.andExpect(status().isOk());
-		resultAction.andExpect(content().string(equalTo("Hello World")));
-	}
+    @Test
+    public void getHello() throws Exception {
+        // when
+        ResultActions resultAction = getMvc().perform(MockMvcRequestBuilders.get(getUrl()).accept(MediaType.APPLICATION_JSON));
+
+        // then
+        resultAction.andExpect(status().isOk());
+        resultAction.andExpect(content().string(equalTo("Hello World")));
+    }
 }

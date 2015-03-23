@@ -15,38 +15,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
-	
-	private ItemService service;
 
-	public ItemService getService() {
-		return service;
-	}
-	
-	@Autowired
-	public void setService(ItemService service) {
-		this.service = service;
-	}
+    private ItemService service;
 
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Item> findItems() {
-		return service.findAll();
-	}
+    public ItemService getService() {
+        return service;
+    }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public Item addItem(@RequestBody Item item) {
-		item.setId(null);
-		return service.add(item);
-	}
+    @Autowired
+    public void setService(ItemService service) {
+        this.service = service;
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public Item updateItem(@RequestBody Item updatedItem,
-			@PathVariable Long id) throws EntityNotFoundException {
-		updatedItem.setId(id);
-		return service.update(updatedItem);
-	}
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Item> findItems() {
+        return service.findAll();
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteItem(@PathVariable Long id) throws EntityNotFoundException {
-		service.delete(id);
-	}
+    @RequestMapping(method = RequestMethod.POST)
+    public Item addItem(@RequestBody Item item) {
+        item.setId(null);
+        return service.add(item);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public Item updateItem(@RequestBody Item updatedItem, @PathVariable Long id) throws EntityNotFoundException {
+        updatedItem.setId(id);
+        return service.update(updatedItem);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public void deleteItem(@PathVariable Long id) throws EntityNotFoundException {
+        service.delete(id);
+    }
 }
