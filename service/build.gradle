@@ -18,6 +18,7 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "spring-boot"
 apply plugin: "jacoco"
+apply plugin: "sonar-runner"
 apply plugin: "com.bmuschko.docker-java-application"
 apply plugin: "maven-publish"
 
@@ -76,6 +77,16 @@ jacocoTestReport {
 	}
     reports {
         xml.enabled true
+    }
+}
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "http://192.168.59.103:9000"
+        property "sonar.jdbc.url", "jdbc:mysql://192.168.59.103:3306/sonar"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.jdbc.password", "sonar"
     }
 }
 
