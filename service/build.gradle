@@ -18,6 +18,8 @@ apply plugin: "java"
 apply plugin: "eclipse"
 apply plugin: "spring-boot"
 apply plugin: "jacoco"
+apply plugin: "findbugs"
+apply plugin: "pmd"
 apply plugin: "sonar-runner"
 apply plugin: "com.bmuschko.docker-java-application"
 apply plugin: "maven-publish"
@@ -80,20 +82,27 @@ jacocoTestReport {
     }
 }
 
+findbugs {
+    ignoreFailures = true
+}
+
+
 sonarRunner {
     sonarProperties {
-        property "sonar.host.url", "http://192.168.59.103:9000"
-        property "sonar.jdbc.url", "jdbc:mysql://192.168.59.103:3306/sonar"
-        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
-        property "sonar.jdbc.username", "sonar"
-        property "sonar.jdbc.password", "sonar"
+    	// properties from GRADLE_USER_HOME/gradle.properties
+        property "sonar.host.url", project.hasProperty("sonarHostUrl") ? project.getProperty("sonarHostUrl") : ""
+        property "sonar.jdbc.url", project.hasProperty("sonarJdbcUrl") ? project.getProperty("sonarJdbcUrl") : ""
+        property "sonar.jdbc.driverClassName", project.hasProperty("sonarJdbcDriver") ? project.getProperty("sonarJdbcDriver") : ""
+        property "sonar.jdbc.username", project.hasProperty("sonarJdbcUser") ? project.getProperty("sonarJdbcUser") : ""
+        property "sonar.jdbc.password", project.hasProperty("sonarJdbcPassword") ? project.getProperty("sonarJdbcPassword") : ""
     }
 }
 
 // running container on docker: docker run -p $port:$port $tag
 docker {
-    url = project.hasProperty("dockerUrl") ? project.getProperty("dockerUrl") : "" // from GRADLE_USER_HOME/gradle.properties
-    certPath = new File(project.hasProperty("dockerCertPath") ? project.getProperty("dockerCertPath") : "") // from GRADLE_USER_HOME/gradle.properties
+	// properties from GRADLE_USER_HOME/gradle.properties
+    url = project.hasProperty("dockerUrl") ? project.getProperty("dockerUrl") : ""
+    certPath = new File(project.hasProperty("dockerCertPath") ? project.getProperty("dockerCertPath") : "")
 
     javaApplication {
         baseImage = "dockerfile/java:oracle-java8"
@@ -143,8 +152,9 @@ release {
 createReleaseTag.dependsOn bintrayUpload
 
 bintray {
-    user = project.hasProperty("bintrayUser") ? project.getProperty("bintrayUser") : "" // from GRADLE_USER_HOME/gradle.properties
-    key = project.hasProperty("bintrayKey") ? project.getProperty("bintrayKey") : "" // from GRADLE_USER_HOME/gradle.properties
+	// properties from GRADLE_USER_HOME/gradle.properties
+    user = project.hasProperty("bintrayUser") ? project.getProperty("bintrayUser") : ""
+    key = project.hasProperty("bintrayKey") ? project.getProperty("bintrayKey") : ""
 
     publications = ["mavenJava"]
     dryRun = false
