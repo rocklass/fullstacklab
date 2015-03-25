@@ -71,10 +71,10 @@ processResources {
     file("gradle.properties").withInputStream {
         properties.load(it);   
     }
-
-	// filter only properties files
-	filesMatching('**/*.properties') {
-	    filter(ReplaceTokens, tokens: properties)
+    
+	from("src/main/resources") {
+        exclude "static/*"
+        filter(ReplaceTokens, tokens: properties)
     }
 }
 
