@@ -23,7 +23,7 @@ public class Item implements org.rocklass.fullstacklab.model.Entity {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -31,7 +31,7 @@ public class Item implements org.rocklass.fullstacklab.model.Entity {
         return checked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(final boolean checked) {
         this.checked = checked;
     }
 
@@ -39,7 +39,7 @@ public class Item implements org.rocklass.fullstacklab.model.Entity {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 }

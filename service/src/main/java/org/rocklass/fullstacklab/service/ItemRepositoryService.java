@@ -18,7 +18,7 @@ public class ItemRepositoryService extends GenericRepositoryService<Item> implem
 
     @Autowired
     @Override
-    public void setRepository(JpaRepository<Item, Long> repository) {
+    public void setRepository(final JpaRepository<Item, Long> repository) {
         this.repository = (ItemRepository) repository;
     }
 

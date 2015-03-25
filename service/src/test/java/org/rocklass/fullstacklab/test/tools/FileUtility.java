@@ -4,23 +4,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class FileUtility {
+public final class FileUtility {
     private FileUtility() {
-
     }
 
-    public static String getResourceFileAsString(String fileName) {
-        StringBuilder result = new StringBuilder("");
-
-        // get file from resources folder
-        ClassLoader classLoader = FileUtility.class.getClassLoader();
-        File file = new File(classLoader.getResource(fileName).getFile());
+    public static String getResourceFileAsString(final String fileName) {
+        final StringBuilder result = new StringBuilder("");
 
         try {
-            Scanner scanner = new Scanner(file);
+            // get file from resources folder
+            final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            final File file = new File(classLoader.getResource(fileName).getFile());
+            final Scanner scanner = new Scanner(file);
 
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+                final String line = scanner.nextLine();
                 result.append(line);
                 if (scanner.hasNextLine()) {
                     result.append(System.lineSeparator());

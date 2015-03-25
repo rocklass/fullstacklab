@@ -15,7 +15,8 @@ public class IndexIT extends ServiceIntegrationTest {
 
     @Test
     public void getIndex() throws Exception {
-        ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
+        final ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
+        
         assertThat(response.getBody(), equalTo(FileUtility.getResourceFileAsString("static/index.html")));
     }
 }

@@ -17,13 +17,13 @@ public abstract class GenericRepositoryService<E extends Entity> implements Gene
     protected abstract String getEntityName();
 
     @Override
-    public E add(E added) {
+    public E add(final E added) {
         return getRepository().saveAndFlush(added);
     }
 
     @Override
-    public void delete(Long id) throws EntityNotFoundException {
-        E deleted = findById(id);
+    public void delete(final Long id) throws EntityNotFoundException {
+        final E deleted = findById(id);
         getRepository().delete(deleted);
     }
 
@@ -33,8 +33,8 @@ public abstract class GenericRepositoryService<E extends Entity> implements Gene
     }
 
     @Override
-    public E findById(Long id) throws EntityNotFoundException {
-        E found = getRepository().findOne(id);
+    public E findById(final Long id) throws EntityNotFoundException {
+        final E found = getRepository().findOne(id);
 
         if (found == null) {
             throw new EntityNotFoundException(getEntityName(), id);
@@ -44,8 +44,8 @@ public abstract class GenericRepositoryService<E extends Entity> implements Gene
     }
 
     @Override
-    public E update(E updated) throws EntityNotFoundException {
-        E found = getRepository().findOne(updated.getId());
+    public E update(final E updated) throws EntityNotFoundException {
+        final E found = getRepository().findOne(updated.getId());
 
         if (found == null) {
             throw new EntityNotFoundException(getEntityName(), updated.getId());

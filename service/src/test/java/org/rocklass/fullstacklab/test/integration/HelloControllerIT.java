@@ -14,8 +14,9 @@ public class HelloControllerIT extends ServiceIntegrationTest {
     }
 
     @Test
-    public void getHello() throws Exception {
-        ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
+    public void getHello() {
+        final ResponseEntity<String> response = getTemplate().getForEntity(getBase().toString(), String.class);
+        
         assertThat(response.getBody(), equalTo("Hello World"));
     }
 }

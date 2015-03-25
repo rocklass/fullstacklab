@@ -14,8 +14,8 @@ public class ItemTest {
 
     @Test
     public void canGetId() throws Exception {
-        Long id = RandomUtils.nextLong(0, Long.MAX_VALUE);
-        Item item = new Item();
+        final Long id = RandomUtils.nextLong(0, Long.MAX_VALUE);
+        final Item item = new Item();
         item.setId(id);
 
         assertThat(item.getId(), sameInstance(id));
@@ -23,8 +23,8 @@ public class ItemTest {
 
     @Test
     public void canGetChecked() throws Exception {
-        boolean checked = new Random().nextBoolean();
-        Item item = new Item();
+        final boolean checked = new Random().nextBoolean();
+        final Item item = new Item();
         item.setChecked(checked);
 
         assertThat(item.isChecked(), equalTo(checked));
@@ -32,8 +32,8 @@ public class ItemTest {
 
     @Test
     public void canGetDescription() throws Exception {
-        String description = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
-        Item item = new Item();
+        final String description = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
+        final Item item = new Item();
         item.setDescription(description);
 
         assertThat(item.getDescription(), sameInstance(description));

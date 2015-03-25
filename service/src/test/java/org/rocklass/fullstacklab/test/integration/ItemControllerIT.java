@@ -6,9 +6,9 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
 import org.rocklass.fullstacklab.model.Item;
@@ -25,9 +25,9 @@ public class ItemControllerIT extends ServiceIntegrationTest {
     @Test
     public void findItems() throws Exception {
         // when
-        List<Item> items = new ArrayList<Item>();
+        final List<Item> items = new ArrayList<Item>();
         @SuppressWarnings("unchecked")
-        ResponseEntity<List<Item>> response = (ResponseEntity<List<Item>>) getTemplate().getForEntity(getBase().toString(), items.getClass());
+        final ResponseEntity<List<Item>> response = (ResponseEntity<List<Item>>) getTemplate().getForEntity(getBase().toString(), items.getClass());
 
         // then
         assertThat(response.getBody(), instanceOf(items.getClass()));
@@ -36,10 +36,10 @@ public class ItemControllerIT extends ServiceIntegrationTest {
     @Test
     public void addItem() throws Exception {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
 
         // when
-        ResponseEntity<Item> response = getTemplate().postForEntity(getBase().toString(), item, Item.class);
+        final ResponseEntity<Item> response = getTemplate().postForEntity(getBase().toString(), item, Item.class);
 
         // then
         assertThat(response.getBody().isChecked(), equalTo(item.isChecked()));
@@ -48,8 +48,8 @@ public class ItemControllerIT extends ServiceIntegrationTest {
 
     @Test
     public void updateItem() throws Exception {
-        Item item = RandomFactory.createItem();
-        Map<String, String> urlVariables = new HashMap<String, String>();
+        final Item item = RandomFactory.createItem();
+        final Map<String, String> urlVariables = new ConcurrentHashMap<String, String>();
         urlVariables.put("id", item.getId().toString());
 
         try {
@@ -61,8 +61,8 @@ public class ItemControllerIT extends ServiceIntegrationTest {
 
     @Test
     public void deleteItem() throws Exception {
-        Item item = RandomFactory.createItem();
-        Map<String, String> urlVariables = new HashMap<String, String>();
+        final Item item = RandomFactory.createItem();
+        final Map<String, String> urlVariables = new ConcurrentHashMap<String, String>();
         urlVariables.put("id", item.getId().toString());
         try {
             getTemplate().delete(getBase().toString() + "/{id}", urlVariables);

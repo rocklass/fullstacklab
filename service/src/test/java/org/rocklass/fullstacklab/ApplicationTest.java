@@ -1,20 +1,17 @@
 package org.rocklass.fullstacklab;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
-import org.rocklass.fullstacklab.Application;
-import org.springframework.context.ApplicationContext;
 
 public class ApplicationTest {
 
 	@Test
-	public void canGetContext() throws Exception {
-		String[] args = new String[0];
+	public void canGetContext() {
+		final String[] args = new String[0];
 		Application.main(args);
-		ApplicationContext context = Application.getContext();
 		
-		assertThat(context, notNullValue());
+		assertThat(Application.getContext(), notNullValue());
 	}
 }

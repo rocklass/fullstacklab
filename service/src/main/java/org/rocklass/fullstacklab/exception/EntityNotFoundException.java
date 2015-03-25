@@ -12,7 +12,7 @@ public class EntityNotFoundException extends Exception {
 
     private final Long id;
 
-    public EntityNotFoundException(String entityName, Long id) {
+    public EntityNotFoundException(final String entityName, final Long id) {
         super("No " + entityName + " with id " + id);
         this.entityName = entityName;
         this.id = id;

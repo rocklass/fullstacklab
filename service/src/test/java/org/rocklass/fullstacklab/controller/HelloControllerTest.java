@@ -19,14 +19,14 @@ public class HelloControllerTest extends ControllerTest {
     }
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         setMvc(MockMvcBuilders.standaloneSetup(new HelloController()).build());
     }
 
     @Test
     public void getHello() throws Exception {
         // when
-        ResultActions resultAction = getMvc().perform(MockMvcRequestBuilders.get(getUrl()).accept(MediaType.APPLICATION_JSON));
+        final ResultActions resultAction = getMvc().perform(MockMvcRequestBuilders.get(getUrl()).accept(MediaType.APPLICATION_JSON));
 
         // then
         resultAction.andExpect(status().isOk());

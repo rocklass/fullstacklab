@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @IntegrationTest({ "server.port=0" })
 public abstract class ServiceIntegrationTest {
     @Value("${local.server.port}")
-    private int port;
+    private transient int port;
 
     private URL base;
 
@@ -39,8 +39,16 @@ public abstract class ServiceIntegrationTest {
         return base;
     }
 
+    public void setBase(final URL base) {
+        this.base = base;
+    }
+
     public RestTemplate getTemplate() {
         return template;
+    }
+
+    public void setTemplate(final RestTemplate template) {
+        this.template = template;
     }
 
     public abstract String getRequestMapping();

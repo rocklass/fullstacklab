@@ -38,11 +38,11 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class ItemControllerTest extends ControllerTest {
 
     @Mock
-    private ItemService itemServiceMock;
+    private transient ItemService itemServiceMock;
 
     @InjectMocks
-    private ItemController itemController;
-
+    private transient ItemController itemController;
+    
     @Override
     public String getUrl() {
         return "/items";
@@ -63,15 +63,15 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void findItems() throws Exception {
         // given
-        Item item = RandomFactory.createItem();
-        List<Item> itemsList = new ArrayList<Item>();
+        final Item item = RandomFactory.createItem();
+        final List<Item> itemsList = new ArrayList<Item>();
         itemsList.add(item);
         when(itemServiceMock.findAll()).thenReturn(itemsList);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get(getUrl());
+        final MockHttpServletRequestBuilder getRequest = get(getUrl());
         getRequest.accept(MediaType.APPLICATION_JSON);
-        ResultActions resultAction = getMvc().perform(getRequest);
+        final ResultActions resultAction = getMvc().perform(getRequest);
 
         // then
         resultAction.andExpect(status().isOk());
@@ -82,13 +82,13 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void findItemsEmpty() throws Exception {
         // given
-        List<Item> emptyItemsList = new ArrayList<Item>();
+        final List<Item> emptyItemsList = new ArrayList<Item>();
         when(itemServiceMock.findAll()).thenReturn(emptyItemsList);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get(getUrl());
+        final MockHttpServletRequestBuilder getRequest = get(getUrl());
         getRequest.accept(MediaType.APPLICATION_JSON);
-        ResultActions resultAction = getMvc().perform(getRequest);
+        final ResultActions resultAction = getMvc().perform(getRequest);
 
         // then
         resultAction.andExpect(status().isOk());
@@ -99,15 +99,15 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void addItem() throws Exception {
         // given
-        Item item1 = RandomFactory.createItem();
-        Item item2 = new Item();
+        final Item item1 = RandomFactory.createItem();
+        final Item item2 = new Item();
         item2.setId(null);
         item2.setChecked(item1.isChecked());
         item2.setDescription(item1.getDescription());
         when(itemServiceMock.add(any(Item.class))).thenReturn(item1);
 
         // when
-        ResultActions resultAction = getMvc().perform(post(getUrl()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item1)));
+        final ResultActions resultAction = getMvc().perform(post(getUrl()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item1)));
 
         // then
         resultAction.andExpect(status().isOk());
@@ -121,15 +121,15 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void updateItem() throws Exception {
         // given
-        Item item1 = RandomFactory.createItem();
-        Item item2 = new Item();
+        final Item item1 = RandomFactory.createItem();
+        final Item item2 = new Item();
         item2.setId(null);
         item2.setChecked(item1.isChecked());
         item2.setDescription(item1.getDescription());
         when(itemServiceMock.update(any(Item.class))).thenReturn(item1);
 
         // when
-        ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item1.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item2)));
+        final ResultActions resultAction = getMvc().perform(put(getUrl() + ControllerTest.URL_VARIABLE_ID, item1.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item2)));
 
         // then
         resultAction.andExpect(status().isOk());
@@ -143,11 +143,11 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void updateItemUnprocessableEntity() throws Exception {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         when(itemServiceMock.update(any(Item.class))).thenThrow(new EntityNotFoundException("item", item.getId()));
 
         // when
-        ResultActions resultAction = getMvc().perform(put(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+        final ResultActions resultAction = getMvc().perform(put(getUrl() + ControllerTest.URL_VARIABLE_ID, item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
 
         // then
         resultAction.andExpect(status().isUnprocessableEntity());
@@ -156,10 +156,10 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void deleteItem() throws Exception {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
 
         // when
-        ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+        final ResultActions resultAction = getMvc().perform(delete(getUrl() + ControllerTest.URL_VARIABLE_ID, item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
 
         // then
         resultAction.andExpect(status().isOk());
@@ -172,11 +172,11 @@ public class ItemControllerTest extends ControllerTest {
     @Test
     public void deleteItemUnprocessableEntity() throws Exception {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         doThrow(new EntityNotFoundException("item", item.getId())).when(itemServiceMock).delete(anyLong());
 
         // when
-        ResultActions resultAction = getMvc().perform(delete(getUrl() + "/{id}", item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
+        final ResultActions resultAction = getMvc().perform(delete(getUrl() + ControllerTest.URL_VARIABLE_ID, item.getId()).contentType(MediaType.APPLICATION_JSON).content(JsonCreator.marshall(item)));
 
         // then
         resultAction.andExpect(status().isUnprocessableEntity());

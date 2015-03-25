@@ -23,7 +23,7 @@ public class ItemController {
     }
 
     @Autowired
-    public void setService(ItemService service) {
+    public void setService(final ItemService service) {
         this.service = service;
     }
 
@@ -33,19 +33,19 @@ public class ItemController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Item addItem(@RequestBody Item item) {
+    public Item addItem(@RequestBody final Item item) {
         item.setId(null);
         return service.add(item);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public Item updateItem(@RequestBody Item updatedItem, @PathVariable Long id) throws EntityNotFoundException {
+    public Item updateItem(@RequestBody final Item updatedItem, @PathVariable final Long id) throws EntityNotFoundException {
         updatedItem.setId(id);
         return service.update(updatedItem);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteItem(@PathVariable Long id) throws EntityNotFoundException {
+    public void deleteItem(@PathVariable final Long id) throws EntityNotFoundException {
         service.delete(id);
     }
 }

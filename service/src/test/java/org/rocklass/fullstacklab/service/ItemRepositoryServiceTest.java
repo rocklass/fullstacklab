@@ -1,7 +1,7 @@
 package org.rocklass.fullstacklab.service;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertSame;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
@@ -45,7 +45,7 @@ public class ItemRepositoryServiceTest {
 
     @Test
     public void getRepository() {
-        assertSame(itemRepositoryService.getRepository(), itemRepository);
+        assertThat(itemRepositoryService.getRepository(), sameInstance(itemRepository));
     }
 
     @Test
@@ -56,11 +56,11 @@ public class ItemRepositoryServiceTest {
     @Test
     public void add() {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         when(itemRepository.saveAndFlush(any(Item.class))).thenReturn(item);
 
         // when
-        Item addedItem = itemRepositoryService.add(item);
+        final Item addedItem = itemRepositoryService.add(item);
 
         // then
         assertThat(addedItem, sameInstance(item));
@@ -70,7 +70,7 @@ public class ItemRepositoryServiceTest {
     @Test
     public void delete() throws EntityNotFoundException {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         when(itemRepository.findOne(anyLong())).thenReturn(item);
 
         // when
@@ -90,13 +90,13 @@ public class ItemRepositoryServiceTest {
     @Test
     public void findAll() {
         // given
-        Item item = RandomFactory.createItem();
-        List<Item> items = new ArrayList<Item>();
+        final Item item = RandomFactory.createItem();
+        final List<Item> items = new ArrayList<Item>();
         items.add(item);
         when(itemRepository.findAll()).thenReturn(items);
 
         // when
-        List<Item> itemsFound = itemRepositoryService.findAll();
+        final List<Item> itemsFound = itemRepositoryService.findAll();
 
         // then
         verify(itemRepository, times(1)).findAll();
@@ -106,11 +106,11 @@ public class ItemRepositoryServiceTest {
     @Test
     public void findAllEmpty() {
         // given
-        List<Item> items = new ArrayList<Item>();
+        final List<Item> items = new ArrayList<Item>();
         when(itemRepository.findAll()).thenReturn(items);
 
         // when
-        List<Item> itemsFound = itemRepositoryService.findAll();
+        final List<Item> itemsFound = itemRepositoryService.findAll();
 
         // then
         verify(itemRepository, times(1)).findAll();
@@ -120,11 +120,11 @@ public class ItemRepositoryServiceTest {
     @Test
     public void findById() throws EntityNotFoundException {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         when(itemRepository.findOne(anyLong())).thenReturn(item);
 
         // when
-        Item itemFound = itemRepositoryService.findById(item.getId());
+        final Item itemFound = itemRepositoryService.findById(item.getId());
 
         // then
         assertThat(itemFound, sameInstance(item));
@@ -141,12 +141,12 @@ public class ItemRepositoryServiceTest {
     @Test
     public void update() throws EntityNotFoundException {
         // given
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         when(itemRepository.findOne(anyLong())).thenReturn(item);
         when(itemRepository.saveAndFlush(any(Item.class))).thenReturn(item);
 
         // when
-        Item updatedItem = itemRepositoryService.update(item);
+        final Item updatedItem = itemRepositoryService.update(item);
 
         // then
         assertThat(updatedItem, sameInstance(item));
@@ -157,7 +157,7 @@ public class ItemRepositoryServiceTest {
     public void updateEntityNotFoundException() throws EntityNotFoundException {
         thrown.expect(EntityNotFoundException.class);
 
-        Item item = RandomFactory.createItem();
+        final Item item = RandomFactory.createItem();
         itemRepositoryService.update(item);
     }
 }
