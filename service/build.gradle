@@ -66,11 +66,16 @@ dependencies {
 import org.apache.tools.ant.filters.ReplaceTokens
 
 processResources {
+	// read properties from gradle.properties
 	def properties = new Properties()
     file("gradle.properties").withInputStream {
         properties.load(it);   
     }
-    filter(ReplaceTokens, tokens: properties)
+
+	// filter only properties files
+	filesMatching('**/*.properties') {
+	    filter(ReplaceTokens, tokens: properties)
+    }
 }
 
 jacocoTestReport {
@@ -86,6 +91,10 @@ findbugs {
     ignoreFailures = true
 }
 
+pmd {
+    ruleSets = [ "java-basic", "java-braces", "java-clone", "java-codesize", "java-controversial", "java-coupling", "java-design", "java-finalizers", "java-imports", "java-j2ee", "java-javabeans", "java-junit", "java-logging-java", "java-migrating", /*"java-naming",*/ "java-optimizations", "java-strictexception", "java-strings", "java-sunsecure", "java-typeresolution", "java-unusedcode" ]
+    ignoreFailures = true
+}
 
 sonarRunner {
     sonarProperties {
