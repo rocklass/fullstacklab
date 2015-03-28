@@ -10,10 +10,19 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
+/**
+ * Test of class {@link Item}
+ * 
+ * @author rocklass
+ *
+ */
 public class ItemTest {
 
+    /**
+     * Test method {@link Item#setId(Long)} and {@link Item#getId()}
+     */
     @Test
-    public void canGetId() throws Exception {
+    public void canSetAndGetId() {
         final Long id = RandomUtils.nextLong(0, Long.MAX_VALUE);
         final Item item = new Item();
         item.setId(id);
@@ -21,8 +30,11 @@ public class ItemTest {
         assertThat(item.getId(), sameInstance(id));
     }
 
+    /**
+     * Test method {@link Item#setChecked(boolean)} and {@link Item#isChecked()}
+     */
     @Test
-    public void canGetChecked() throws Exception {
+    public void canSetAndGetChecked() {
         final boolean checked = new Random().nextBoolean();
         final Item item = new Item();
         item.setChecked(checked);
@@ -30,8 +42,12 @@ public class ItemTest {
         assertThat(item.isChecked(), equalTo(checked));
     }
 
+    /**
+     * Test method {@link Item#setDescription(String)} and
+     * {@link Item#getDescription()}
+     */
     @Test
-    public void canGetDescription() throws Exception {
+    public void canSetAndGetDescription() {
         final String description = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
         final Item item = new Item();
         item.setDescription(description);

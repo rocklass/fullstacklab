@@ -35,19 +35,39 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+/**
+ * Test of class {@link ItemController}
+ * 
+ * @author rocklass
+ *
+ */
 public class ItemControllerTest extends ControllerTest {
 
+    /**
+     * Mocked item service
+     */
     @Mock
     private transient ItemService itemServiceMock;
 
+    /**
+     * Instance of tested item controller
+     */
     @InjectMocks
     private transient ItemController itemController;
-    
+
+    /**
+     * Get URL of item controller
+     * 
+     * @return /items
+     */
     @Override
     public String getUrl() {
         return "/items";
     }
 
+    /**
+     * Set up test
+     */
     @Before
     public void setUp() {
         Mockito.reset(itemServiceMock);
@@ -55,11 +75,22 @@ public class ItemControllerTest extends ControllerTest {
         setMvc(MockMvcBuilders.standaloneSetup(itemController).build());
     }
 
+    /**
+     * Test method {@link ItemController#getService()}
+     */
     @Test
     public void getService() {
         assertThat(itemController.getService(), sameInstance(itemServiceMock));
     }
 
+    /**
+     * Test method {@link ItemController#findItems()} <br/>
+     * <br/>
+     * Case nominal
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void findItems() throws Exception {
         // given
@@ -79,6 +110,14 @@ public class ItemControllerTest extends ControllerTest {
         resultAction.andExpect(content().json(JsonCreator.marshall(itemsList)));
     }
 
+    /**
+     * Test method {@link ItemController#findItems()} <br/>
+     * <br/>
+     * Case empty repository
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void findItemsEmpty() throws Exception {
         // given
@@ -96,6 +135,12 @@ public class ItemControllerTest extends ControllerTest {
         resultAction.andExpect(content().json(JsonCreator.marshall(emptyItemsList)));
     }
 
+    /**
+     * Test method {@link ItemController#addItem(Item)}
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void addItem() throws Exception {
         // given
@@ -118,6 +163,14 @@ public class ItemControllerTest extends ControllerTest {
         verify(itemServiceMock, times(1)).add(Matchers.refEq(item2));
     }
 
+    /**
+     * Test method {@link ItemController#updateItem(Item, Long)} <br/>
+     * <br/>
+     * Case nominal
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void updateItem() throws Exception {
         // given
@@ -140,6 +193,14 @@ public class ItemControllerTest extends ControllerTest {
         verify(itemServiceMock, times(1)).update(Matchers.refEq(item1));
     }
 
+    /**
+     * Test method {@link ItemController#updateItem(Item, Long)} <br/>
+     * <br/>
+     * Case item not found
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void updateItemUnprocessableEntity() throws Exception {
         // given
@@ -153,6 +214,14 @@ public class ItemControllerTest extends ControllerTest {
         resultAction.andExpect(status().isUnprocessableEntity());
     }
 
+    /**
+     * Test method {@link ItemController#deleteItem(Long)} <br/>
+     * <br/>
+     * Case nominal
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void deleteItem() throws Exception {
         // given
@@ -169,6 +238,14 @@ public class ItemControllerTest extends ControllerTest {
         verify(itemServiceMock, times(1)).delete(Matchers.refEq(item.getId()));
     }
 
+    /**
+     * Test method {@link ItemController#deleteItem(Long)} <br/>
+     * <br/>
+     * Case item not found
+     * 
+     * @throws Exception
+     *             test fails
+     */
     @Test
     public void deleteItemUnprocessableEntity() throws Exception {
         // given

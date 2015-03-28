@@ -11,19 +11,35 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
+import org.rocklass.fullstacklab.controller.ControllerTest;
+import org.rocklass.fullstacklab.controller.ItemController;
 import org.rocklass.fullstacklab.model.Item;
 import org.rocklass.fullstacklab.test.tools.RandomFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 
+/**
+ * Integration test of {@link ItemController}
+ * 
+ * @author rocklass
+ *
+ */
 public class ItemControllerIT extends ServiceIntegrationTest {
+    /**
+     * Get request mapping for item controller
+     * 
+     * @return /items
+     */
     @Override
     public String getRequestMapping() {
         return "/items";
     }
 
+    /**
+     * Test GET method of {@link ItemController}
+     */
     @Test
-    public void findItems() throws Exception {
+    public void findItems() {
         // when
         final List<Item> items = new ArrayList<Item>();
         @SuppressWarnings("unchecked")
@@ -33,8 +49,11 @@ public class ItemControllerIT extends ServiceIntegrationTest {
         assertThat(response.getBody(), instanceOf(items.getClass()));
     }
 
+    /**
+     * Test POST method of {@link ItemController}
+     */
     @Test
-    public void addItem() throws Exception {
+    public void addItem() {
         // given
         final Item item = RandomFactory.createItem();
 
@@ -46,26 +65,32 @@ public class ItemControllerIT extends ServiceIntegrationTest {
         assertThat(response.getBody().getDescription(), equalTo(item.getDescription()));
     }
 
+    /**
+     * Test PUT method of {@link ItemController}
+     */
     @Test
-    public void updateItem() throws Exception {
+    public void updateItem() {
         final Item item = RandomFactory.createItem();
         final Map<String, String> urlVariables = new ConcurrentHashMap<String, String>();
         urlVariables.put("id", item.getId().toString());
 
         try {
-            getTemplate().put(getBase().toString() + "/{id}", item, urlVariables);
+            getTemplate().put(getBase().toString() + ControllerTest.URL_VARIABLE_ID, item, urlVariables);
         } catch (RestClientException e) {
             fail("Cannot put item");
         }
     }
 
+    /**
+     * Test DELETE method of {@link ItemController}
+     */
     @Test
-    public void deleteItem() throws Exception {
+    public void deleteItem() {
         final Item item = RandomFactory.createItem();
         final Map<String, String> urlVariables = new ConcurrentHashMap<String, String>();
         urlVariables.put("id", item.getId().toString());
         try {
-            getTemplate().delete(getBase().toString() + "/{id}", urlVariables);
+            getTemplate().delete(getBase().toString() + ControllerTest.URL_VARIABLE_ID, urlVariables);
         } catch (RestClientException e) {
             fail("Cannot delete item");
         }

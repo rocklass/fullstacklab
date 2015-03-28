@@ -5,13 +5,25 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+/**
+ * Test of class {@link Application}
+ * 
+ * @author rocklass
+ *
+ */
 public class ApplicationTest {
 
-	@Test
-	public void canGetContext() {
-		final String[] args = new String[0];
-		Application.main(args);
-		
-		assertThat(Application.getContext(), notNullValue());
-	}
+    /**
+     * Test method {@link Application#main(String[]) and
+     * {@link Application#getContext()}
+     */
+    @Test
+    public void canGetContextAfterMain() {
+        // when
+        final String[] args = new String[0];
+        Application.main(args);
+
+        // then
+        assertThat(Application.getContext(), notNullValue());
+    }
 }

@@ -8,7 +8,17 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 
+/**
+ * Test of class {@link EntityNotFoundException}
+ * 
+ * @author rocklass
+ *
+ */
 public class EntityNotFoundExceptionTest {
+    
+    /**
+     * Test we can throw an {@link EntityNotFoundException}
+     */
     @Test
     public void canThrowEntityNotFoundException() {
         final String entityName = RandomStringUtils.random(RandomUtils.nextInt(0, 63));
