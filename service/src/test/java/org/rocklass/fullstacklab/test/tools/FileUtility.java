@@ -13,6 +13,11 @@ import java.util.Scanner;
 public final class FileUtility {
     
     /**
+     * Default charset used in files
+     */
+    private static final String CHARSET = "UTF-8";
+    
+    /**
      * Private constructor of static class {@link FileUtility}
      */
     private FileUtility() {
@@ -32,7 +37,7 @@ public final class FileUtility {
             // get file from resources folder
             final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
             final File file = new File(classLoader.getResource(fileName).getFile());
-            final Scanner scanner = new Scanner(file);
+            final Scanner scanner = new Scanner(file, CHARSET);
 
             while (scanner.hasNextLine()) {
                 final String line = scanner.nextLine();

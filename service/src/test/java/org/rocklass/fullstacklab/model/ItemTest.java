@@ -4,11 +4,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import java.util.Random;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
+import org.rocklass.fullstacklab.test.tools.RandomFactory;
 
 /**
  * Test of class {@link Item}
@@ -35,7 +34,7 @@ public class ItemTest {
      */
     @Test
     public void canSetAndGetChecked() {
-        final boolean checked = new Random().nextBoolean();
+        final boolean checked = RandomFactory.createBoolean();
         final Item item = new Item();
         item.setChecked(checked);
 

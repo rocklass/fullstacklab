@@ -23,6 +23,14 @@ public final class RandomFactory {
      */
     private RandomFactory() {
     }
+    
+    /**
+     * Create random boolean
+     * @return random boolean
+     */
+    public static boolean createBoolean() {
+        return RANDOM.nextBoolean();
+    }
 
     /**
      * Create random item

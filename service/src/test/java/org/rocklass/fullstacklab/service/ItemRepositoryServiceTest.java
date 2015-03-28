@@ -39,18 +39,18 @@ public class ItemRepositoryServiceTest {
      * Mocked item repository
      */
     @Mock
-    private ItemRepository itemRepository;
+    private transient ItemRepository itemRepository;
 
     /**
      * Instance of tested item repository service
      */
-    private ItemRepositoryService itemRepositoryService;
+    private transient ItemRepositoryService itemRepositoryService;
 
     /**
      * Test rule for expected exception thrown
      */
     @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    public transient ExpectedException thrown = ExpectedException.none();
 
     /**
      * Set up test
